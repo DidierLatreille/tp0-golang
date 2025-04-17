@@ -33,5 +33,5 @@ func main() {
 	utils.LeerConsola()
 
 	// generamos un paquete y lo enviamos al servidor
-	// utils.GenerarYEnviarPaquete()
+	utils.GenerarYEnviarPaquete(globals.ClientConfig.Ip, globals.ClientConfig.Puerto)
 }
