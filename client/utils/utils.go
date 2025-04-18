@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Mensaje struct {
@@ -41,8 +42,9 @@ func LeerConsola() {
 	for {
 		log.Println("Ingrese los mensajes")
 		text, _ := reader.ReadString('\n')
+		text = strings.TrimSpace(text)
 
-		if text == "\n" {
+		if text == "" {
 			log.Println("Entrada vacía. Saliendo.")
 			return
 		}
@@ -58,8 +60,9 @@ func GenerarYEnviarPaquete(ip string, puerto int) {
 	for {
 		log.Println("Ingrese los mensajes")
 		text, _ := reader.ReadString('\n')
+		text = strings.TrimSpace(text)
 
-		if text == "\n" {
+		if text == "" {
 			log.Println("Entrada vacía. Saliendo.")
 			break
 		}
