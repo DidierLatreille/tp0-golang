@@ -21,6 +21,8 @@ type Paquete struct {
 	Valores []string `json:"valores"`
 }
 
+type ArrayDeMensajes []string
+
 func IniciarConfiguracion(filePath string) *globals.Config {
 	var config *globals.Config
 	configFile, err := os.Open(filePath)
@@ -35,28 +37,11 @@ func IniciarConfiguracion(filePath string) *globals.Config {
 	return config
 }
 
-func LeerConsola() {
+func LeerConsola() ArrayDeMensajes {
 	// Leer de la consola
 	reader := bufio.NewReader(os.Stdin)
+	var mensajes []string
 
-	for {
-		log.Println("Ingrese los mensajes")
-		text, _ := reader.ReadString('\n')
-		text = strings.TrimSpace(text)
-
-		if text == "" {
-			log.Println("Entrada vacía. Saliendo.")
-			return
-		}
-		log.Print(text)
-	}
-}
-
-func GenerarYEnviarPaquete(ip string, puerto int) {
-	paquete := Paquete{}
-	reader := bufio.NewReader(os.Stdin)
-
-	// Leemos y cargamos el paquete
 	for {
 		log.Println("Ingrese los mensajes")
 		text, _ := reader.ReadString('\n')
@@ -66,8 +51,20 @@ func GenerarYEnviarPaquete(ip string, puerto int) {
 			log.Println("Entrada vacía. Saliendo.")
 			break
 		}
-		log.Printf("Mensaje agregado: %s\n", text)
-		paquete.Valores = append(paquete.Valores, text)
+		log.Print(text)
+		mensajes = append(mensajes, text)
+	}
+
+	return mensajes
+}
+
+func GenerarYEnviarPaquete(ip string, puerto int) {
+	paquete := Paquete{}
+	paquete.Valores = LeerConsola()
+
+	if len(paquete.Valores) == 0 {
+		log.Println("No se ingresaron valores. Saliendo.")
+		return
 	}
 
 	log.Printf("paquete a enviar: %+v", paquete)
